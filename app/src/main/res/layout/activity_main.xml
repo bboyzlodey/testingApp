@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MainActivity"
+	android:layout_margin="10dp">
+
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true"
+		android:layout_centerHorizontal="true"
+		android:gravity=""
+		android:orientation="horizontal">
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:text="WebView"
+		android:textAlignment="center"
+		android:id="@+id/web_view_button"
+		android:gravity="bottom"
+		android:onClick="webViewClick" />
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAlignment="center"
+		android:layout_weight="1"
+
+		android:layout_toRightOf="@id/web_view_button"
+		android:text="Monkey Treasure"
+		android:id="@+id/play_game_btn"
+		android:gravity="bottom"
+		android:onClick="playGame"/>
+	</LinearLayout>
+</RelativeLayout>
