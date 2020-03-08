@@ -20,20 +20,16 @@
 		android:layout_height="wrap_content"
 		android:layout_weight="1"
 		android:text="WebView"
-		android:textAlignment="center"
 		android:id="@+id/web_view_button"
-		android:gravity="bottom"
-		android:onClick="webViewClick" />
+		android:onClick="webViewClick"
+		android:layout_margin="0dp"/>
 	<Button
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textAlignment="center"
 		android:layout_weight="1"
-
-		android:layout_toRightOf="@id/web_view_button"
+		android:layout_margin="0dp"
 		android:text="Monkey Treasure"
 		android:id="@+id/play_game_btn"
-		android:gravity="bottom"
 		android:onClick="playGame"/>
 	</LinearLayout>
 </RelativeLayout>

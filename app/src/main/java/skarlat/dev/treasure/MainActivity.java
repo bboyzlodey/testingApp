@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
 	View dye;
 	ImageView kill;
 	String request;
-	Image hel;
-	Drawable k;
-	LinearLayout linearLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 			URL obj = new URL(url);
 			HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
-			//add reuqest header
 			connection.setRequestMethod("GET");
 			connection.setRequestProperty("User-Agent", "Mozilla/5.0");
 			connection.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
@@ -86,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
-	public void webViewClick(View view) {
+	public void webViewClick(View view) throws InterruptedException {
 		setContentView(R.layout.activity_request);
 
 
