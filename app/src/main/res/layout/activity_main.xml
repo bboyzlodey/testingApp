@@ -13,6 +13,7 @@
 		android:layout_centerVertical="true"
 		android:layout_centerHorizontal="true"
 		android:gravity=""
+		android:weightSum="0"
 		android:orientation="horizontal">
 	<Button
 		android:layout_width="wrap_content"

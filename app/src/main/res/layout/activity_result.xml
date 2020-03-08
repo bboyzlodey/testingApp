@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="match_parent"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:layout_margin="15dp">
+	android:layout_margin="15dp"
+	tools:context=".MainActivity">
 
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text=""/>
+		android:text="Текущее значение доллара США: "/>
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Hello"
+		android:id="@+id/dollar"/>
+	<WebView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:id="@+id/web_view"
+		android:visibility="invisible"
+		tools:visibility="visible"/>
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="сравнить"
+		android:id="@+id/show_web_btn"
+		android:onClick="showWeb"
+		android:layout_weight="0"/>
 </LinearLayout>
