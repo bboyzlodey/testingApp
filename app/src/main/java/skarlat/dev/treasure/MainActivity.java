@@ -84,20 +84,21 @@ public class MainActivity extends AppCompatActivity {
 
 	public void webViewClick(View view) throws InterruptedException {
 		setContentView(R.layout.activity_request);
-
-
-		TextView requestText = (TextView) findViewById(R.id.dollar);
-
-
 		RequestThread requestThread = new RequestThread(this);
 		requestThread.start();
 		if (requestThread.isAlive()) {
 			try {
 				requestThread.join();
 			} catch (Exception e) {
-				requestText.setText("Попытка подождать не удалась");
+				request = ("Попытка подождать не удалась");
 			}
 		}
+		this.printResult();
+
+	}
+
+	public void printResult(){
+		TextView requestText = (TextView) findViewById(R.id.dollar);
 		if (request == null)
 			requestText.setText("Не получилось");
 		else {
@@ -106,8 +107,11 @@ public class MainActivity extends AppCompatActivity {
 			requestText = (TextView) findViewById(R.id.dollar);
 			requestText.setText(request);
 		}
+		WebView webView = (WebView) findViewById(R.id.web_view);
+		webView.getSettings().setJavaScriptEnabled(true);
+		webView.loadUrl("http://www.banki.ru/products/currency/cash/moskva/");
+		webView.setWebViewClient(new MyWebViewClient());
 	}
-
 
 	public void touch(View view) {
 
@@ -141,9 +145,6 @@ public class MainActivity extends AppCompatActivity {
 
 	public void showWeb(View view) {
 		WebView webView = (WebView) findViewById(R.id.web_view);
-		webView.getSettings().setJavaScriptEnabled(true);
-		webView.loadUrl("http://www.banki.ru/products/currency/cash/moskva/");
-		webView.setWebViewClient(new MyWebViewClient());
 		webView.setVisibility(View.VISIBLE);
 	}
 
