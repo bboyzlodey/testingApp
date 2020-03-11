@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
 		webView = (Button) findViewById(R.id.web_view_button);
 	}
 
+	@Override
+	onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).
+
+
 	public void playGame(View view) {
 		setContentView(R.layout.activity_game);
 		dye = (View) findViewById(R.id.dye_dialog);
