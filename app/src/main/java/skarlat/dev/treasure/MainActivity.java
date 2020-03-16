@@ -12,6 +12,8 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebResourceRequest;
@@ -33,6 +35,9 @@ import java.net.URL;
 
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -84,22 +89,37 @@ public class MainActivity extends AppCompatActivity {
 
 	public void webViewClick(View view) throws InterruptedException {
 		setContentView(R.layout.activity_request);
-		RequestThread requestThread = new RequestThread(this);
-		requestThread.start();
-		if (requestThread.isAlive()) {
-			try {
-				requestThread.join();
-			} catch (Exception e) {
-				request = ("Попытка подождать не удалась");
+		Runnable runnable = new Runnable() {
+			public void run() {
+				Message msg = handler.obtainMessage();
+				Bundle bundle = new Bundle();
+				SimpleDateFormat dateFormat =
+						new SimpleDateFormat("HH:mm:ss MM/dd/yyyy",
+								Locale.US);
+				String dateString =
+						dateFormat.format(new Date());
+				bundle.putString("Key", dateString);
+				msg.setData(bundle);
+				handler.sendMessage(msg);
+				request = doGet("http://www.cbr-xml-daily.ru/daily_json.js");
 			}
-		}
-		this.printResult();
-
+		};
+		Thread thread = new Thread(runnable);
+		thread.start();
 	}
 
+	Handler handler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			Bundle bundle = msg.getData();
+			printResult();
+		}
+	};
+
 	public void printResult(){
+		setContentView(R.layout.activity_result);
 		TextView requestText = (TextView) findViewById(R.id.dollar);
-		if (request == null)
+		if (request == null && requestText != null)
 			requestText.setText("Не получилось");
 		else {
 			findDollarValue();
@@ -150,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
 
 	public void findDollarValue(){
 		int tmp = 0;
+		if (request.contains("Failed"))
+			return;
 		tmp = request.indexOf("USD");
 		tmp = request.indexOf("Value", tmp);
 		tmp = request.indexOf(" ", tmp);
