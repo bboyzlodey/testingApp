@@ -91,27 +91,33 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_request);
 		Runnable runnable = new Runnable() {
 			public void run() {
-				Message msg = handler.obtainMessage();
-				Bundle bundle = new Bundle();
-				SimpleDateFormat dateFormat =
-						new SimpleDateFormat("HH:mm:ss MM/dd/yyyy",
-								Locale.US);
-				String dateString =
-						dateFormat.format(new Date());
-				bundle.putString("Key", dateString);
-				msg.setData(bundle);
-				handler.sendMessage(msg);
+				Runnable progress = new Runnable() {
+					@Override
+					public void run() {
+						handler2.sendEmptyMessage(0);
+					}
+				};
+				Thread thread = new Thread(progress);
+				thread.start();
 				request = doGet("http://www.cbr-xml-daily.ru/daily_json.js");
+				handler.sendEmptyMessage(0);
+				thread.interrupt();
 			}
 		};
 		Thread thread = new Thread(runnable);
 		thread.start();
 	}
 
+	Handler handler2 = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			setContentView(R.layout.activity_request);
+		}
+	};
+
 	Handler handler = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
-			Bundle bundle = msg.getData();
 			printResult();
 		}
 	};
