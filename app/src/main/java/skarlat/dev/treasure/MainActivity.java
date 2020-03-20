@@ -5,7 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
@@ -16,6 +19,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -47,11 +52,17 @@ public class MainActivity extends AppCompatActivity {
 	View dye;
 	ImageView kill;
 	String request;
+	String currentView;
+	private ImageButton animated;
+	Bundle currentInstance;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		currentInstance = savedInstanceState;
+		int id = 0;
+		setContentView(id = R.layout.activity_main);
+		currentView = "activity_main";
 		playGame = (Button) findViewById(R.id.play_game_btn);
 		webView = (Button) findViewById(R.id.web_view_button);
 	}
@@ -59,6 +70,39 @@ public class MainActivity extends AppCompatActivity {
 	public void playGame(View view) {
 		setContentView(R.layout.activity_game);
 		dye = (View) findViewById(R.id.dye_dialog);
+		currentView = "game";
+	}
+
+	@Override
+	public void onBackPressed() {
+		// super.onBackPressed();
+		if (currentView.contains("activity_main"))
+			openQuitDialog();
+		else
+			onCreate(currentInstance);
+	}
+
+	private void openQuitDialog() {
+		AlertDialog.Builder quitDialog = new AlertDialog.Builder(
+				this);
+		quitDialog.setTitle("Выход: Вы уверены?");
+
+		quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				finish();
+			}
+		});
+
+		quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+			}
+		});
+
+		quitDialog.show();
 	}
 
 	public static String doGet(String url) {
@@ -137,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.loadUrl("http://www.banki.ru/products/currency/cash/moskva/");
 		webView.setWebViewClient(new MyWebViewClient());
+		currentView = "web";
 	}
 
 	public void touch(View view) {
@@ -149,7 +194,9 @@ public class MainActivity extends AppCompatActivity {
 		ImageButton clicked = (ImageButton) findViewById(tmpId);
 
 		if (content == null) {
+			clicked.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out));
 			clicked.setImageResource(R.drawable.element_without);
+			clicked.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
 			return;
 		}
 		String cont = (view.getContentDescription().toString());
@@ -171,7 +218,10 @@ public class MainActivity extends AppCompatActivity {
 
 	public void showWeb(View view) {
 		WebView webView = (WebView) findViewById(R.id.web_view);
+		webView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out));
 		webView.setVisibility(View.VISIBLE);
+		webView.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
+
 	}
 
 	public void findDollarValue(){
