@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
@@ -55,31 +56,26 @@ public class MainActivity extends AppCompatActivity {
 	String currentView;
 	private ImageButton animated;
 	Bundle currentInstance;
+	Intent intent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		currentInstance = savedInstanceState;
-		int id = 0;
-		setContentView(id = R.layout.activity_main);
-		currentView = "activity_main";
+		setContentView(R.layout.activity_main);
 		playGame = (Button) findViewById(R.id.play_game_btn);
 		webView = (Button) findViewById(R.id.web_view_button);
 	}
 
 	public void playGame(View view) {
-		setContentView(R.layout.activity_game);
-		dye = (View) findViewById(R.id.dye_dialog);
-		currentView = "game";
+		intent = new Intent(MainActivity.this, GameActivity.class.getClass());
+		startActivity(intent);
+//		setContentView(R.layout.activity_game);
+//		dye = (View) findViewById(R.id.dye_dialog);
 	}
 
 	@Override
 	public void onBackPressed() {
-		// super.onBackPressed();
-		if (currentView.contains("activity_main"))
 			openQuitDialog();
-		else
-			onCreate(currentInstance);
 	}
 
 	private void openQuitDialog() {
@@ -132,7 +128,9 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	public void webViewClick(View view) throws InterruptedException {
-		setContentView(R.layout.activity_request);
+		intent = new Intent(MainActivity.this, WebActivity.class.getClass());
+		startActivity(intent);
+//		setContentView(R.layout.activity_request);
 		Runnable runnable = new Runnable() {
 			public void run() {
 				Runnable progress = new Runnable() {
