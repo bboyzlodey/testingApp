@@ -24,15 +24,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class WebActivity extends AppCompatActivity {
-	Button webView;
-	Button playGame;
-	View dye;
-	ImageView kill;
+
 	String request;
 	String currentView;
-	private ImageButton animated;
-	Bundle currentInstance;
-	Intent intent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +140,4 @@ public class WebActivity extends AppCompatActivity {
 		tmp = request.indexOf(" ", tmp);
 		request = request.substring(tmp + 1, request.indexOf(',', tmp + 1));
 	}
-
-
 }
